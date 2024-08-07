@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// tampilan login
+Route::get('/', [LoginController::class, 'login'])->name('login');
+
+//ngirim input login bro
+Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
+
+// content
+Route::resource('/posts', PostController::class)->middleware('auth');
 
 
-Route::resource('/posts', \App\Http\Controllers\PostController::class);
+// Route::get('home', [HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::get('actionlogout', [LoginController::class, 'actionlogout'])->name('actionlogout')->middleware('auth');
